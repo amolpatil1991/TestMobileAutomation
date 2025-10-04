@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 
 public class LoginPage  {
 
-    public AppiumDriver driver;
+    private final AppiumDriver driver;
 
     public LoginPage(AppiumDriver driver) {
         this.driver = driver;
@@ -31,6 +31,10 @@ public class LoginPage  {
 
     public boolean isHomeScreenDisplayed() {
         return driver.findElement(productsLabel).isDisplayed();
+    }
+
+    public boolean isLoginScreenDisplayed() {
+        return driver.findElement(usernameField).isDisplayed();
     }
 
     public boolean isErrorMessageDisplayed() {

@@ -8,7 +8,7 @@ import java.net.URL;
 
 public class BaseTest {
 
-    public AppiumDriver driver;
+    private AppiumDriver driver;
 
     public void setup() throws Exception {
         DesiredCapabilities caps = new DesiredCapabilities();

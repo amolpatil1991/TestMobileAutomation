@@ -13,12 +13,29 @@ import pages.LoginPage;
 public class LoginSteps extends BaseTest {
 
 
-    LoginPage loginPage;
+    private final BaseTest baseTest;
+    private LoginPage loginPage;
+
+    public LoginSteps(BaseTest baseTest) {
+        this.baseTest = baseTest;
+    }
+
 
     @Given("the app is launched")
     public void launchApp() throws Exception {
-        setup();
-        loginPage = new LoginPage(getDriver());
+
+        loginPage = new LoginPage(baseTest.getDriver());
+
+        try {
+            boolean getResult = loginPage.isLoginScreenDisplayed();
+            if (!getResult)
+                throw new AssertionError("login page is not displayed");
+
+        } catch (NoSuchElementException e) {
+            // Element not found => treat as home screen not displayed
+            throw new AssertionError("seems app launch was not successful", e);
+        }
+
     }
 
     @When("user enters username {string} and password {string}")

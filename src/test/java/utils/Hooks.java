@@ -11,24 +11,29 @@ import org.openqa.selenium.TakesScreenshot;
 
 public class Hooks {
 
-    public AppiumDriver driver;
+    private final BaseTest baseTest;
 
-    public Hooks(AppiumDriver driver) {
-        this.driver = driver;
+    public Hooks(BaseTest baseTest) {
+        this.baseTest = baseTest;
     }
 
     @Before
-    public void beforeScenario() throws InterruptedException {
+    public void beforeScenario() throws Exception {
 
-        Thread.sleep(4000);
+        baseTest.setup();
+        System.out.println("Driver initialized: " + (baseTest.getDriver() != null));
+
     }
 
          @After
          public void afterScenario(Scenario scenario) {
              if (scenario.isFailed()) {
-                 TakesScreenshot ts = (TakesScreenshot) driver;
+                 TakesScreenshot ts = (TakesScreenshot) baseTest.getDriver();
                  byte[] screenshot = ts.getScreenshotAs(OutputType.BYTES);
                  scenario.attach(screenshot, "image/png", "Failed Step Screenshot");
              }
+
+             baseTest.tearDown();
+
          }
 }

@@ -15,7 +15,7 @@ public class LoginPage  {
     By passwordField = By.xpath("//android.widget.EditText[@content-desc=\"test-Password\"]");
     By loginButton = By.xpath("//android.view.ViewGroup[@content-desc=\"test-LOGIN\"]");
     By productsLabel = By.xpath("//android.widget.TextView[@text=\"PRODUCTS\"]");
-    By errorMessage = By.xpath("//android.widget.TextView[@text=\"aUsername and password do not match any user in this service.\"]");
+    By errorMessage = By.xpath("//android.widget.TextView[@text=\"Username and password do not match any user in this service.\"]");
 
     public void enterUsername(String username) {
         driver.findElement(usernameField).sendKeys(username);

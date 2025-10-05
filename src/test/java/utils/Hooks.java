@@ -21,6 +21,9 @@ public class Hooks {
     public void beforeScenario() throws Exception {
 
         baseTest.setup();
+        Thread.sleep(10000);
+        String excelPath = "/Users/admin/IdeaProjects/TestAuto/src/test/resources/TestData.xlsx";
+        ExcelReaderManager.initialize(excelPath);
         System.out.println("Driver initialized: " + (baseTest.getDriver() != null));
 
     }
@@ -32,6 +35,7 @@ public class Hooks {
                  byte[] screenshot = ts.getScreenshotAs(OutputType.BYTES);
                  scenario.attach(screenshot, "image/png", "Failed Step Screenshot");
              }
+             ExcelReaderManager.getInstance().closeWorkbook();
 
              baseTest.tearDown();
 

@@ -9,6 +9,10 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.NoSuchElementException;
 import pages.LoginPage;
+import utils.ExcelReaderManager;
+
+import java.io.IOException;
+import java.util.*;
 
 public class LoginSteps extends BaseTest {
 
@@ -38,13 +42,36 @@ public class LoginSteps extends BaseTest {
 
     }
 
-    @When("user enters username {string} and password {string}")
-    public void iEnterValidCredentials(String username, String password) {
-        loginPage.enterUsername(username);
-        loginPage.enterPassword(password);
-        loginPage.tapLogin();
-    }
+    @When("user enters valid username and password from {string} sheet")
+    public void iEnterValidCredentials(String sheetName) throws IOException {
+        List<Map<String, String>> data = ExcelReaderManager.getInstance().getSheetData(sheetName);
 
+        for (Map<String, String> row : data) {
+            String username = row.get("username");
+            String password = row.get("password");
+
+            System.out.println("#######Username: " + username + ", Password: " + password);
+
+            loginPage.enterUsername(username);
+            loginPage.enterPassword(password);
+            loginPage.tapLogin();
+        }
+    }
+    @When("user enters invalid username and password from {string} sheet")
+    public void iEnterInValidCredentials(String sheetName) {
+        List<Map<String, String>> data = ExcelReaderManager.getInstance().getSheetData(sheetName);
+
+        for (Map<String, String> row : data) {
+            String username1 = row.get("invalid_username");
+            String password1 = row.get("invalid_password");
+
+            System.out.println("#######Username: " + username1 + ", Password: " + password1);
+
+            loginPage.enterUsername(username1);
+            loginPage.enterPassword(password1);
+            loginPage.tapLogin();
+        }
+    }
     @And("user clicks login button")
     public void tapLoginButton()
     {

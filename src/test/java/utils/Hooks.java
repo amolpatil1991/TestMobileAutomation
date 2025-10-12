@@ -20,7 +20,7 @@ public class Hooks {
     @Before
     public void beforeScenario() throws Exception {
 
-        baseTest.setup();
+        baseTest.setup(BaseTest.platform);
         Thread.sleep(10000);
         String excelPath = "/Users/admin/IdeaProjects/TestAuto/src/test/resources/TestData.xlsx";
         ExcelReaderManager.initialize(excelPath);

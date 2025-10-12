@@ -30,7 +30,7 @@ public class LoginPage  {
                 break;
 
             default:
-                throw new RuntimeException("Unsupported platform type: " + BaseTest.platform);
+                throw new RuntimeException("Unsupported platform: " + BaseTest.platform);
         }
     }
 

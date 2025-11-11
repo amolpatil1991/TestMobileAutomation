@@ -20,7 +20,11 @@ public class Hooks {
     @Before
     public void beforeScenario() throws Exception {
 
-        baseTest.setup(BaseTest.platform);
+
+        String platform = BaseTest.platform.get(); // ThreadLocal platform
+        String deviceName = BaseTest.device.get(); // ThreadLocal device
+        baseTest.setup(platform, deviceName);
+
         Thread.sleep(10000);
         String excelPath = "/Users/admin/IdeaProjects/TestAuto/src/test/resources/TestData.xlsx";
         ExcelReaderManager.initialize(excelPath);

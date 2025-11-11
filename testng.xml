@@ -1,9 +1,19 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="BasicSuite">
+<suite name="BasicSuite" parallel="tests" thread-count="2">
     <parameter name="platform" value="ios"/> <!-- or "android" -->
-    <test name="BasicTest">
+    <test name="Android_Device_1">
+        <parameter name="platform" value="android" />
+        <parameter name="deviceName" value="emulator-5554" />
         <classes>
-            <class name="runners.TestRunnerTest"/>
+            <class name="runners.AndroidTestRunnerTest" />
+        </classes>
+    </test>
+
+    <test name="iOS_Device_1">
+        <parameter name="platform" value="ios" />
+        <parameter name="deviceName" value="iPhone 16" />
+        <classes>
+            <class name="runners.IosTestRunnerTest" />
         </classes>
     </test>
 </suite>

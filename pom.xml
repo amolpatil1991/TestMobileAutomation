@@ -12,6 +12,9 @@
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Define TestNG suite file -->
+        <suiteXmlFile>testng.xml</suiteXmlFile>
+
     </properties>
 
     <dependencies>
@@ -73,11 +76,41 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
-                    <includes>
-                        <include>**/TestRunnerTest.java</include>
-                    </includes>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+                    </suiteXmlFiles>
                 </configuration>
             </plugin>
+<!--            <plugin>-->
+<!--                <groupId>net.masterthought</groupId>-->
+<!--                <artifactId>maven-cucumber-reporting</artifactId>-->
+<!--                <version>5.8.2</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>generate-cucumber-html-report</id>-->
+<!--                        <phase>verify</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>generate</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            &lt;!&ndash; The name of your test suite &ndash;&gt;-->
+<!--                            <projectName>Parallel Mobile Suite</projectName>-->
+
+<!--                            &lt;!&ndash; Output folder for merged HTML reports &ndash;&gt;-->
+<!--                            <outputDirectory>${project.build.directory}/cucumber-reports/merged</outputDirectory>-->
+
+<!--                            &lt;!&ndash; Input JSON reports to merge &ndash;&gt;-->
+<!--                            <jsonFiles>-->
+<!--                                <param>${project.build.directory}/cucumber-reports/android/report.json</param>-->
+<!--                                <param>${project.build.directory}/cucumber-reports/ios/report.json</param>-->
+<!--                            </jsonFiles>-->
+
+<!--                            &lt;!&ndash; Optional metadata (these are safe) &ndash;&gt;-->
+<!--                            <buildNumber>1</buildNumber>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 </project>

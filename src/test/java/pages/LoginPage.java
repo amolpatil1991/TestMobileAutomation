@@ -10,9 +10,11 @@ public class LoginPage  {
 
     public LoginPage(AppiumDriver driver) {
         this.driver = driver;
+        String platform = BaseTest.platform.get();
 
 
-        switch (BaseTest.platform.toLowerCase()) {
+
+        switch (platform.toLowerCase()) {
             case "android":
                 usernameField = By.xpath("//android.widget.EditText[@content-desc=\"test-Username\"]");
                 passwordField = By.xpath("//android.widget.EditText[@content-desc=\"test-Password\"]");

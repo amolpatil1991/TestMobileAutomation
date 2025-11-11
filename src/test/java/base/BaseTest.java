@@ -9,26 +9,34 @@ import java.net.URL;
 
 public class BaseTest {
 
-    private AppiumDriver driver;
-    public static String platform; // Add this line
+    //private AppiumDriver driver;
+    public static ThreadLocal<String> platform = new ThreadLocal<>();
+    public static ThreadLocal<String> device = new ThreadLocal<>();
 
 
-    public void setup(String platform) throws Exception {
+
+    public void setup(String platformName, String deviceName) throws Exception {
+
+        platform.set(platformName);
+        device.set(deviceName);
+
+
         DesiredCapabilities caps = new DesiredCapabilities();
 
-        if (platform.equalsIgnoreCase("android")) {
+        if (platformName.equalsIgnoreCase("android")) {
             caps.setCapability("platformName", "Android");
-            caps.setCapability("appium:deviceName", "emulator-5554");
+            caps.setCapability("appium:deviceName", deviceName);
             caps.setCapability("appium:app", "/Users/admin/IdeaProjects/TestAuto/src/test/resources/apk/Sauce.apk");
             caps.setCapability("appium:appPackage", "com.swaglabsmobileapp");
             caps.setCapability("appium:appActivity", "com.swaglabsmobileapp.MainActivity");
             caps.setCapability("appium:automationName", "UiAutomator2");
 
-            driver = new AndroidDriver(new URL("http://127.0.0.1:4723/"), caps);
+            AppiumDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723/"), caps);
+            DriverManager.setDriver(driver);
 
-        } else if (platform.equalsIgnoreCase("ios")) {
+        } else if (platformName.equalsIgnoreCase("ios")) {
             caps.setCapability("platformName", "iOS");  // ✅ W3C standard key (no appium: prefix)
-            caps.setCapability("appium:deviceName", "iPhone 16");  // ✅ Must match simulator name exactly
+            caps.setCapability("appium:deviceName", deviceName);  // ✅ Must match simulator name exactly
             caps.setCapability("appium:platformVersion", "18.0");  // ✅ Must match installed simulator version
             caps.setCapability("appium:automationName", "XCUITest");
             caps.setCapability("appium:app", "/Users/admin/IdeaProjects/TestAuto/src/test/resources/ios/iOS.Simulator.SauceLabs.Mobile.Sample.app.2.7.1.app");
@@ -41,7 +49,9 @@ public class BaseTest {
             caps.setCapability("appium:wdaLaunchTimeout", 60000); // 2 minutes
             // Add UDID, xcodeOrgId, etc., if using real device
 
-            driver = new IOSDriver(new URL("http://127.0.0.1:4723/"), caps);
+            AppiumDriver driver = new IOSDriver(new URL("http://127.0.0.1:4724/"), caps);
+            DriverManager.setDriver(driver);
+
 
         } else {
             throw new IllegalArgumentException("Unsupported platform: " + platform);
@@ -49,13 +59,13 @@ public class BaseTest {
     }
 
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
+        if (DriverManager.getDriver() != null) {
+            DriverManager.getDriver().quit();
         }
     }
 
     public AppiumDriver getDriver() {
-        return driver;
+        return DriverManager.getDriver();
     }
 
 }
